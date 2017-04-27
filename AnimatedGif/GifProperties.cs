@@ -1,5 +1,5 @@
 ﻿namespace AnimatedGif {
-    public enum GIFQuality {
+    public enum GifQuality {
         Default,
         Bit8,
         Bit4,

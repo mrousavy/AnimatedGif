@@ -17,7 +17,7 @@ namespace AnimatedGif {
             Repeat = repeat;
         }
 
-        public void AddFrame(Image img, GIFQuality quality = GIFQuality.Default) {
+        public void AddFrame(Image img, GifQuality quality = GifQuality.Default) {
             GifClass gif = new GifClass();
             gif.LoadGifPicture(img, quality);
 
@@ -36,7 +36,7 @@ namespace AnimatedGif {
             FrameCount++;
         }
 
-        public void AddFrame(string path, GIFQuality quality = GIFQuality.Default) {
+        public void AddFrame(string path, GifQuality quality = GifQuality.Default) {
             using (Image img = ImageHelper.LoadImage(path)) {
                 AddFrame(img, quality);
             }

@@ -23,11 +23,11 @@ namespace AnimatedGif {
         public List<byte> ImageDescriptor = new List<byte>();
         public List<byte> ImageData = new List<byte>();
 
-        public void LoadGifPicture(Image img, GIFQuality quality) {
+        public void LoadGifPicture(Image img, GifQuality quality) {
             List<byte> dataList;
 
             using (MemoryStream ms = new MemoryStream()) {
-                img.SaveGIF(ms, quality);
+                img.SaveGif(ms, quality);
                 dataList = new List<byte>(ms.ToArray());
             }
 
