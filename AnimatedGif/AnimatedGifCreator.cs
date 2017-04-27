@@ -37,7 +37,7 @@ namespace AnimatedGif {
         }
 
         public void AddFrame(string path, GifQuality quality = GifQuality.Default) {
-            using (Image img = ImageHelper.LoadImage(path)) {
+            using (Image img = Helper.LoadImage(path)) {
                 AddFrame(img, quality);
             }
         }

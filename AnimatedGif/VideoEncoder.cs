@@ -23,7 +23,7 @@ namespace AnimatedGif {
                     targetFilePath += "." + OutputExtension.TrimStart('.');
                 }
 
-                Helpers.CreateDirectoryFromFilePath(targetFilePath);
+                Helper.CreateDirectoryFromFilePath(targetFilePath);
 
                 using (Process process = new Process()) {
                     ProcessStartInfo psi = new ProcessStartInfo(Path) {
