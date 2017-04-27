@@ -2,6 +2,7 @@
 <package >
   <metadata>
     <id>AnimatedGif</id>
+	<title>Animated GIF</title>
     <version>1.0.1</version>
     <authors>mrousavy</authors>
     <owners>mrousavy</owners>
@@ -10,6 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/mrousavy/AnimatedGif/master/AnimatedGif/Icon.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A high performance .NET library for reading and creating (animated) GIFs</description>
+	<summary>A high performance .NET library for reading and creating (animated) GIFs</summary>
     <releaseNotes>Added Wrapper for Create and Load</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Animated GIF Create Load Encoder Encoding Decoder Decoding</tags>
