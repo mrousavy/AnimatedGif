@@ -5,16 +5,18 @@
     <version>1.0.1</version>
     <authors>mrousavy</authors>
     <owners>mrousavy</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <licenseUrl>https://github.com/mrousavy/AnimatedGif/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/mrousavy/AnimatedGif</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/mrousavy/AnimatedGif/master/AnimatedGif/Icon.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Package description</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <description>A high performance .NET library for reading and creating (animated) GIFs</description>
+    <releaseNotes>Added Wrapper for Create and Load</releaseNotes>
     <copyright>Copyright 2017</copyright>
-    <tags>Tag1 Tag2</tags>
-    <dependencies>
-      <dependency id="SampleDependency" version="1.0" />
-    </dependencies>
+    <tags>Animated GIF Create Load Encoder Encoding Decoder Decoding</tags>
   </metadata>
+  
+  <files>
+	<file src="AnimatedGif.dll" target="lib"/>
+	<file src="AnimatedGif.pdb" target="pdb"/>
+  </files>
 </package>
