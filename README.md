@@ -5,7 +5,7 @@ A high performance *.NET* library for **reading** and **creating (animated) GIFs
 
 ### Creating a GIF
 ```c#
-//Create new Animated GIF Creator with Path to C:\awesomegif.gif and 33 ms delay between frames (effectively meaning 30 fps)
+//Create new Animated GIF Creator with Path to C:\awesomegif.gif and 33ms delay between frames (=30 fps)
 using (AnimatedGifCreator gifCreator = AnimatedGif.Create("C:\\awesomegif.gif", 33)) {
     //Enumerate through a List<System.Drawing.Image> or List<System.Drawing.Bitmap> for example
     foreach (Image img in MyImagesList) {
