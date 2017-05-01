@@ -1,5 +1,5 @@
 # Animated GIF
-A high performance *.NET* library for **reading** and **creating (animated) GIFs**
+**AnimatedGif** is a high performance .NET library for **reading and creating animated GIFs**, inspired by the lack of features from the *System.Windows.Media.GifBitmapEncoder*
 
 # How to use
 
