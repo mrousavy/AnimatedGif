@@ -3,6 +3,15 @@
 
 # How to use
 
+### Add to your Project
+* Via NuGet:
+
+Type `Install-Package AnimatedGif` in Package Manager Console or download manually [on NuGet](http://www.nuget.org/packages/AnimatedGif/)
+
+* Manually: 
+
+Download or clone this Project and compile on your own and import `AnimatedGif/bin/Release/AnimatedGif.dll`
+
 ### Creating a GIF
 ```c#
 //Create new Animated GIF Creator with Path to C:\awesomegif.gif and 33ms delay between frames (=30 fps)
