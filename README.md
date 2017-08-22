@@ -1,4 +1,8 @@
-# Animated GIF
+<p align="center">
+    <img align="right" src="https://raw.githubusercontent.com/mrousavy/AnimatedGif/master/AnimatedGif/Icon.ico" alt="Animated GIF Icon" height=100>
+    <h1 align="left">Animated GIF</h1>
+</p>
+
 **AnimatedGif** is a high performance .NET library for **reading and creating animated GIFs**, inspired by the lack of features from the *System.Windows.Media.GifBitmapEncoder*
 
 # How to use
