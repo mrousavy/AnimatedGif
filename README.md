@@ -5,7 +5,7 @@
 
 **AnimatedGif** is a high performance .NET library for **reading and creating animated GIFs**, inspired by the lack of features from the *System.Windows.Media.GifBitmapEncoder*
 
-[![NuGet](https://img.shields.io/nuget/dt/AndroidToast.svg)](https://www.nuget.org/packages/AnimatedGif/)
+[![NuGet](https://img.shields.io/nuget/dt/AnimatedGif.svg)](https://www.nuget.org/packages/AnimatedGif/)
 
 # How to use
 
