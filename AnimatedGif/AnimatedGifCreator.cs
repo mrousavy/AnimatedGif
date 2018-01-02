@@ -4,11 +4,6 @@ using System.IO;
 
 namespace AnimatedGif {
     public class AnimatedGifCreator : IDisposable {
-        public string FilePath { get; }
-        public int Delay { get; }
-        public int Repeat { get; }
-        public int FrameCount { get; private set; }
-
         private FileStream _stream;
 
         public AnimatedGifCreator(string filePath, int delay, int repeat = 0) {
@@ -17,8 +12,17 @@ namespace AnimatedGif {
             Repeat = repeat;
         }
 
+        public string FilePath { get; }
+        public int Delay { get; }
+        public int Repeat { get; }
+        public int FrameCount { get; private set; }
+
+        public void Dispose() {
+            Finish();
+        }
+
         public void AddFrame(Image img, GifQuality quality = GifQuality.Default) {
-            GifClass gif = new GifClass();
+            var gif = new GifClass();
             gif.LoadGifPicture(img, quality);
 
             if (_stream == null) {
@@ -37,24 +41,19 @@ namespace AnimatedGif {
         }
 
         public void AddFrame(string path, GifQuality quality = GifQuality.Default) {
-            using (Image img = Helper.LoadImage(path)) {
+            using (var img = Helper.LoadImage(path)) {
                 AddFrame(img, quality);
             }
         }
 
         private void Finish() {
-            if (_stream != null) {
-                _stream.WriteByte(0x3B); // Image terminator
-                _stream.Dispose();
-            }
-        }
-
-        public void Dispose() {
-            Finish();
+            if (_stream == null) return;
+            _stream.WriteByte(0x3B); // Image terminator
+            _stream.Dispose();
         }
 
         private static byte[] CreateHeaderBlock() {
-            return new[] { (byte)'G', (byte)'I', (byte)'F', (byte)'8', (byte)'9', (byte)'a' };
+            return new[] {(byte) 'G', (byte) 'I', (byte) 'F', (byte) '8', (byte) '9', (byte) 'a'};
         }
 
         private static byte[] CreateApplicationExtensionBlock(int repeat) {
@@ -62,21 +61,21 @@ namespace AnimatedGif {
             buffer[0] = 0x21; // Extension introducer
             buffer[1] = 0xFF; // Application extension
             buffer[2] = 0x0B; // Size of block
-            buffer[3] = (byte)'N'; // NETSCAPE2.0
-            buffer[4] = (byte)'E';
-            buffer[5] = (byte)'T';
-            buffer[6] = (byte)'S';
-            buffer[7] = (byte)'C';
-            buffer[8] = (byte)'A';
-            buffer[9] = (byte)'P';
-            buffer[10] = (byte)'E';
-            buffer[11] = (byte)'2';
-            buffer[12] = (byte)'.';
-            buffer[13] = (byte)'0';
+            buffer[3] = (byte) 'N'; // NETSCAPE2.0
+            buffer[4] = (byte) 'E';
+            buffer[5] = (byte) 'T';
+            buffer[6] = (byte) 'S';
+            buffer[7] = (byte) 'C';
+            buffer[8] = (byte) 'A';
+            buffer[9] = (byte) 'P';
+            buffer[10] = (byte) 'E';
+            buffer[11] = (byte) '2';
+            buffer[12] = (byte) '.';
+            buffer[13] = (byte) '0';
             buffer[14] = 0x03; // Size of block
             buffer[15] = 0x01; // Loop indicator
-            buffer[16] = (byte)(repeat % 0x100); // Number of repetitions
-            buffer[17] = (byte)(repeat / 0x100); // 0 for endless loop
+            buffer[16] = (byte) (repeat % 0x100); // Number of repetitions
+            buffer[17] = (byte) (repeat / 0x100); // 0 for endless loop
             buffer[18] = 0x00; // Block terminator
             return buffer;
         }
@@ -87,8 +86,8 @@ namespace AnimatedGif {
             buffer[1] = 0xF9; // Graphic control extension
             buffer[2] = 0x04; // Size of block
             buffer[3] = 0x09; // Flags: reserved, disposal method, user input, transparent color
-            buffer[4] = (byte)(delay / 10 % 0x100); // Delay time low byte
-            buffer[5] = (byte)(delay / 10 / 0x100); // Delay time high byte
+            buffer[4] = (byte) (delay / 10 % 0x100); // Delay time low byte
+            buffer[5] = (byte) (delay / 10 / 0x100); // Delay time high byte
             buffer[6] = 0xFF; // Transparent color index
             buffer[7] = 0x00; // Block terminator
             return buffer;

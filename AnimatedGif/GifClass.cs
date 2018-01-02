@@ -5,39 +5,38 @@ using System.IO;
 
 namespace AnimatedGif {
     public class GifClass {
-        public enum GifVersion {
-            GIF87a,
-            GIF89a
-        }
-
         public enum GifBlockType {
             ImageDescriptor = 0x2C,
             Extension = 0x21,
             Trailer = 0x3B
         }
 
-        public GifVersion Version = GifVersion.GIF87a;
-        public List<byte> GifSignature = new List<byte>();
-        public List<byte> ScreenDescriptor = new List<byte>();
+        public enum GifVersion {
+            GIF87a,
+            GIF89a
+        }
+
         public List<byte> ColorTable = new List<byte>();
-        public List<byte> ImageDescriptor = new List<byte>();
+        public List<byte> GifSignature = new List<byte>();
         public List<byte> ImageData = new List<byte>();
+        public List<byte> ImageDescriptor = new List<byte>();
+        public List<byte> ScreenDescriptor = new List<byte>();
+
+        public GifVersion Version = GifVersion.GIF87a;
 
         public void LoadGifPicture(Image img, GifQuality quality) {
             List<byte> dataList;
 
-            using (MemoryStream ms = new MemoryStream()) {
+            using (var ms = new MemoryStream()) {
                 img.SaveGif(ms, quality);
                 dataList = new List<byte>(ms.ToArray());
             }
 
-            if (!AnalyzeGifSignature(dataList)) {
-                throw new Exception("File is not a gif!");
-            }
+            if (!AnalyzeGifSignature(dataList)) throw new Exception("File is not a gif!");
 
             AnalyzeScreenDescriptor(dataList);
 
-            GifBlockType blockType = GetTypeOfNextBlock(dataList);
+            var blockType = GetTypeOfNextBlock(dataList);
 
             while (blockType != GifBlockType.Trailer) {
                 switch (blockType) {
@@ -54,9 +53,7 @@ namespace AnimatedGif {
         }
 
         private bool AnalyzeGifSignature(List<byte> gifData) {
-            for (int i = 0; i < 6; i++) {
-                GifSignature.Add(gifData[i]);
-            }
+            for (int i = 0; i < 6; i++) GifSignature.Add(gifData[i]);
 
             gifData.RemoveRange(0, 6);
 
@@ -64,25 +61,19 @@ namespace AnimatedGif {
 
             string s = new string(chars.ToArray());
 
-            if (s == GifVersion.GIF89a.ToString()) {
-                Version = GifVersion.GIF89a;
-            } else if (s == GifVersion.GIF87a.ToString()) {
-                Version = GifVersion.GIF87a;
-            } else {
-                return false;
-            }
+            if (s == GifVersion.GIF89a.ToString()) Version = GifVersion.GIF89a;
+            else if (s == GifVersion.GIF87a.ToString()) Version = GifVersion.GIF87a;
+            else return false;
 
             return true;
         }
 
         private char ByteToChar(byte b) {
-            return (char)b;
+            return (char) b;
         }
 
         private void AnalyzeScreenDescriptor(List<byte> gifData) {
-            for (int i = 0; i < 7; i++) {
-                ScreenDescriptor.Add(gifData[i]);
-            }
+            for (int i = 0; i < 7; i++) ScreenDescriptor.Add(gifData[i]);
 
             gifData.RemoveRange(0, 7);
 
@@ -93,28 +84,24 @@ namespace AnimatedGif {
             if (globalColorTableFollows) {
                 int pixel = ScreenDescriptor[4] & 0x07;
 
-                int lengthOfColorTableInByte = 3 * ((int)Math.Pow(2, pixel + 1));
+                int lengthOfColorTableInByte = 3 * (int) Math.Pow(2, pixel + 1);
 
-                for (int i = 0; i < lengthOfColorTableInByte; i++) {
-                    ColorTable.Add(gifData[i]);
-                }
+                for (int i = 0; i < lengthOfColorTableInByte; i++) ColorTable.Add(gifData[i]);
 
                 gifData.RemoveRange(0, lengthOfColorTableInByte);
             }
 
-            ScreenDescriptor[4] = (byte)(ScreenDescriptor[4] & 0x7F);
+            ScreenDescriptor[4] = (byte) (ScreenDescriptor[4] & 0x7F);
         }
 
         private GifBlockType GetTypeOfNextBlock(List<byte> gifData) {
-            GifBlockType blockType = (GifBlockType)gifData[0];
+            var blockType = (GifBlockType) gifData[0];
 
             return blockType;
         }
 
         private void AnalyzeImageDescriptor(List<byte> gifData) {
-            for (int i = 0; i < 10; i++) {
-                ImageDescriptor.Add(gifData[i]);
-            }
+            for (int i = 0; i < 10; i++) ImageDescriptor.Add(gifData[i]);
 
             gifData.RemoveRange(0, 10);
 
@@ -125,24 +112,22 @@ namespace AnimatedGif {
             if (localColorMapFollows) {
                 int pixel = ImageDescriptor[9] & 0x07;
 
-                int lengthOfColorTableInByte = 3 * ((int)Math.Pow(2, pixel + 1));
+                int lengthOfColorTableInByte = 3 * (int) Math.Pow(2, pixel + 1);
 
                 ColorTable.Clear();
 
-                for (int i = 0; i < lengthOfColorTableInByte; i++) {
-                    ColorTable.Add(gifData[i]);
-                }
+                for (int i = 0; i < lengthOfColorTableInByte; i++) ColorTable.Add(gifData[i]);
 
                 gifData.RemoveRange(0, lengthOfColorTableInByte);
             } else {
                 int lastThreeBitsOfGlobalTableDescription = ScreenDescriptor[4] & 0x07;
 
-                ImageDescriptor[9] = (byte)(ImageDescriptor[9] & 0xF8);
+                ImageDescriptor[9] = (byte) (ImageDescriptor[9] & 0xF8);
 
-                ImageDescriptor[9] = (byte)(ImageDescriptor[9] | lastThreeBitsOfGlobalTableDescription);
+                ImageDescriptor[9] = (byte) (ImageDescriptor[9] | lastThreeBitsOfGlobalTableDescription);
             }
 
-            ImageDescriptor[9] = (byte)(ImageDescriptor[9] | 0x80);
+            ImageDescriptor[9] = (byte) (ImageDescriptor[9] | 0x80);
 
             GetImageData(gifData);
         }
@@ -155,9 +140,7 @@ namespace AnimatedGif {
             while (gifData[0] != 0x00) {
                 int countOfFollowingDataBytes = gifData[0];
 
-                for (int i = 0; i <= countOfFollowingDataBytes; i++) {
-                    ImageData.Add(gifData[i]);
-                }
+                for (int i = 0; i <= countOfFollowingDataBytes; i++) ImageData.Add(gifData[i]);
 
                 gifData.RemoveRange(0, countOfFollowingDataBytes + 1);
             }
@@ -170,9 +153,7 @@ namespace AnimatedGif {
         private void ThrowAwayExtensionBlock(List<byte> gifData) {
             gifData.RemoveRange(0, 2); // Delete ExtensionBlockIndicator and ExtensionDetermination
 
-            while (gifData[0] != 0) {
-                gifData.RemoveRange(0, gifData[0] + 1);
-            }
+            while (gifData[0] != 0) gifData.RemoveRange(0, gifData[0] + 1);
 
             gifData.RemoveAt(0);
         }

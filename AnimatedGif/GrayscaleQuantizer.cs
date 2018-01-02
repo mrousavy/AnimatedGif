@@ -4,14 +4,14 @@ using System.Drawing;
 
 namespace AnimatedGif {
     /// <summary>
-    /// Summary description for PaletteQuantizer.
+    ///     Summary description for PaletteQuantizer.
     /// </summary>
     public class GrayscaleQuantizer : PaletteQuantizer {
         /// <summary>
-        /// Construct the palette quantizer
+        ///     Construct the palette quantizer
         /// </summary>
         /// <remarks>
-        /// Palette quantization only requires a single quantization step
+        ///     Palette quantization only requires a single quantization step
         /// </remarks>
         public GrayscaleQuantizer()
             : base(new ArrayList()) {
@@ -34,20 +34,20 @@ namespace AnimatedGif {
                 // Otherwise, use your favorite color reduction algorithm
                 // and an optimum palette for that algorithm generated here.
                 // For example, a color histogram, or a median cut palette.
-                Colors[i] = Color.FromArgb((int)alpha,
-                    (int)intensity,
-                    (int)intensity,
-                    (int)intensity);
+                Colors[i] = Color.FromArgb((int) alpha,
+                    (int) intensity,
+                    (int) intensity,
+                    (int) intensity);
             }
         }
 
         /// <summary>
-        /// Override this to process the pixel in the second pass of the algorithm
+        ///     Override this to process the pixel in the second pass of the algorithm
         /// </summary>
         /// <param name="pixel">The pixel to quantize</param>
         /// <returns>The quantized value</returns>
         protected override byte QuantizePixel(Color32 pixel) {
-            double luminance = (pixel.Red * 0.299) + (pixel.Green * 0.587) + (pixel.Blue * 0.114);
+            double luminance = pixel.Red * 0.299 + pixel.Green * 0.587 + pixel.Blue * 0.114;
 
             // Gray scale is an intensity map from black to white.
             // Compute the index to the grayscale entry that
@@ -55,7 +55,7 @@ namespace AnimatedGif {
             // Also, constrain the index choices by the number of
             // colors to do, and then set that pixel's index to the
             // byte value.
-            byte colorIndex = (byte)(luminance + 0.5);
+            byte colorIndex = (byte) (luminance + 0.5);
 
             return colorIndex;
         }
