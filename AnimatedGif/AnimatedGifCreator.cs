@@ -16,7 +16,7 @@ namespace AnimatedGif {
         public int Delay { get; }
         public int Repeat { get; }
         public int FrameCount { get; private set; }
-        
+
         public void Dispose() {
             Finish();
         }
@@ -62,7 +62,8 @@ namespace AnimatedGif {
         ///     Finish creating the GIF and start flushing
         /// </summary>
         private void Finish() {
-            if (_stream == null) return;
+            if (_stream == null)
+                return;
             _stream.WriteByte(0x3B); // Image terminator
             _stream.Dispose();
         }
