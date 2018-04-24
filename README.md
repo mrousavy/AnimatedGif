@@ -14,31 +14,15 @@
 
 Type `Install-Package AnimatedGif` in Package Manager Console or download manually [on NuGet](http://www.nuget.org/packages/AnimatedGif/)
 
-* Manually: 
+* Manually:
 
 Download or clone this Project and compile on your own and import `AnimatedGif/bin/Release/AnimatedGif.dll`
 
 ### Creating a GIF
-```c#
-//Create new Animated GIF Creator with Path to C:\awesomegif.gif and 33ms delay between frames (=30 fps)
-using (AnimatedGifCreator gifCreator = AnimatedGif.Create("C:\\awesomegif.gif", 33)) {
-    //Enumerate through a List<System.Drawing.Image> or List<System.Drawing.Bitmap> for example
-    foreach (Image img in MyImagesList) {
-        using (img) {
-            //Add the image to gifEncoder with default Quality
-            gifCreator.AddFrame(img, GIFQuality.Default);
-        } //Image disposed
-    }
-} // gifCreator.Finish and gifCreator.Dispose is called here
-```
+![Creating the GIF sample code](Images/create-example.png)
 
 ### Reading a GIF
-```c#
-using (GifBitmapDecoder gifDecoder = AnimatedGif.Load("C:\\awesomegif.gif")) {
-    // Do stuff
-}
-```
-
+![Reading a GIF sample code](Images/read-example.png)
 
 ### Contributing
 
