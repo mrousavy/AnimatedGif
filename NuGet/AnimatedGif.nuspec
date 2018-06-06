@@ -3,7 +3,7 @@
   <metadata>
     <id>AnimatedGif</id>
 	<title>Animated GIF</title>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <authors>mrousavy</authors>
     <owners>mrousavy</owners>
     <licenseUrl>https://github.com/mrousavy/AnimatedGif/blob/master/LICENSE</licenseUrl>
@@ -16,7 +16,7 @@
     <copyright>Copyright 2017</copyright>
     <tags>Animated GIF Create Load Encoder Encoding Decoder Decoding</tags>
   </metadata>
-  
+
   <files>
 	<file src="AnimatedGif.dll" target="lib"/>
 	<file src="AnimatedGif.pdb" target="pdb"/>
