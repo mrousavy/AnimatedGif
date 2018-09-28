@@ -35,6 +35,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.5.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,10 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnimatedGif\AnimatedGif.csproj">
-      <Project>{5d6202a8-cf66-498b-9feb-dcec100bde87}</Project>
+      <Project>{2f93bb0e-bd1f-4e6b-aef3-2a9b7befeb62}</Project>
       <Name>AnimatedGif</Name>
     </ProjectReference>
   </ItemGroup>
