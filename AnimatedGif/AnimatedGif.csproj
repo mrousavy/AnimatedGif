@@ -5,9 +5,10 @@
     <Company>mrousavy</Company>
     <Copyright>Copyright ©  2017</Copyright>
     <Description>A high performance .NET library for reading and creating (animated) GIFs</Description>
-    <Version>1.0.0.2</Version>
+    <Version>1.0.0.3</Version>
     <Authors>mrousavy</Authors>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
