@@ -10,6 +10,7 @@
 # How to use
 
 ### Add to your Project
+
 * Via NuGet:
 
 Type `Install-Package AnimatedGif` in Package Manager Console or download manually [on NuGet](http://www.nuget.org/packages/AnimatedGif/)
@@ -19,10 +20,8 @@ Type `Install-Package AnimatedGif` in Package Manager Console or download manual
 Download or clone this Project and compile on your own and import `AnimatedGif/bin/Release/AnimatedGif.dll`
 
 ### Creating a GIF
-![Creating the GIF sample code](Images/create-example.png)
 
-### Reading a GIF
-![Reading a GIF sample code](Images/read-example.png)
+![Creating the GIF sample code](Images/create-example.png)
 
 ### Contributing
 
