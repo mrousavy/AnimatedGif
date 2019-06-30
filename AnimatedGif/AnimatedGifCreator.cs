@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AnimatedGif {
     public class AnimatedGifCreator : IDisposable {
         private bool _createdHeader;
-        private Stream _stream;
+        private readonly Stream _stream;
 
         public AnimatedGifCreator(Stream stream, int delay = 33, int repeat = 0)
         {
@@ -41,17 +43,18 @@ namespace AnimatedGif {
             var gif = new GifClass();
             gif.LoadGifPicture(image, quality);
 
-            if (!_createdHeader) {
-                _stream.Write(CreateHeaderBlock());
-                _stream.Write(gif.ScreenDescriptor.ToArray());
-                _stream.Write(CreateApplicationExtensionBlock(Repeat));
+            if (!_createdHeader)
+            {
+                AppendToStream(CreateHeaderBlock());
+                AppendToStream(gif.ScreenDescriptor.ToArray());
+                AppendToStream(CreateApplicationExtensionBlock(Repeat));
                 _createdHeader = true;
             }
 
-            _stream.Write(CreateGraphicsControlExtensionBlock(delay > -1 ? delay : Delay));
-            _stream.Write(gif.ImageDescriptor.ToArray());
-            _stream.Write(gif.ColorTable.ToArray());
-            _stream.Write(gif.ImageData.ToArray());
+            AppendToStream(CreateGraphicsControlExtensionBlock(delay > -1 ? delay : Delay));
+            AppendToStream(gif.ImageDescriptor.ToArray());
+            AppendToStream(gif.ColorTable.ToArray());
+            AppendToStream(gif.ImageData.ToArray());
 
             FrameCount++;
         }
@@ -66,6 +69,11 @@ namespace AnimatedGif {
             using (var img = Helper.LoadImage(path)) {
                 AddFrame(img, delay, quality);
             }
+        }
+
+        private void AppendToStream(byte[] data)
+        {
+            _stream.Write(data, 0, data.Length);
         }
 
         /// <summary>
