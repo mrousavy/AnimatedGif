@@ -4,12 +4,22 @@ using System.IO;
 
 namespace AnimatedGif {
     public class AnimatedGifCreator : IDisposable {
-        private FileStream _stream;
+        private bool _createdHeader;
+        private Stream _stream;
 
-        public AnimatedGifCreator(string filePath, int delay, int repeat = 0) {
+        public AnimatedGifCreator(Stream stream, int delay = 33, int repeat = 0)
+        {
+            Delay = delay;
+            Repeat = repeat;
+
+            _stream = stream;
+        }
+        public AnimatedGifCreator(string filePath, int delay = 33, int repeat = 0) {
             FilePath = filePath;
             Delay = delay;
             Repeat = repeat;
+
+            _stream = new FileStream(FilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
         }
 
         public string FilePath { get; }
@@ -31,11 +41,11 @@ namespace AnimatedGif {
             var gif = new GifClass();
             gif.LoadGifPicture(image, quality);
 
-            if (_stream == null) {
-                _stream = new FileStream(FilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
+            if (!_createdHeader) {
                 _stream.Write(CreateHeaderBlock());
                 _stream.Write(gif.ScreenDescriptor.ToArray());
                 _stream.Write(CreateApplicationExtensionBlock(Repeat));
+                _createdHeader = true;
             }
 
             _stream.Write(CreateGraphicsControlExtensionBlock(delay > -1 ? delay : Delay));
@@ -65,7 +75,8 @@ namespace AnimatedGif {
             if (_stream == null)
                 return;
             _stream.WriteByte(0x3B); // Image terminator
-            _stream.Dispose();
+            if (_stream.GetType() == typeof(FileStream))
+                _stream.Dispose();
         }
 
         /// <summary>
