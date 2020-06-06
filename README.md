@@ -30,7 +30,7 @@ using (var gif = AnimatedGif.Create("mygif.gif", 33))
 }
 ```
 
-> If you don't want to write to a File, the first parameter can also be a `Stream`.
+> If you don't want to write to a File, create a new `AnimatedGifCreator` instance directly. The constructor takes a `Stream`.
 
 ## Reading a GIF
 
