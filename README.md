@@ -9,21 +9,34 @@
 
 # How to use
 
-### Add to your Project
+## Add to your Project
 
-* Via NuGet:
+```nuget
+Install-Package AnimatedGif
+```
 
-Type `Install-Package AnimatedGif` in Package Manager Console or download manually [on NuGet](http://www.nuget.org/packages/AnimatedGif/)
+> or download manually [on NuGet](http://www.nuget.org/packages/AnimatedGif/)
 
-* Manually:
 
-Download or clone this Project and compile on your own and import `AnimatedGif/bin/Release/AnimatedGif.dll`
+## Creating a GIF
 
-### Creating a GIF
+Create a GIF with the filename `"mygif.gif"` and a `33`ms delay between frames (~30fps). Use `16`ms for 60fps and so on.
 
-![Creating the GIF sample code](Images/create-example.png)
+```cs
+using (var gif = AnimatedGif.Create("mygif.gif", 33))
+{
+    var img = Image.FromFile("myimage.png");
+    gif.AddFrame(img, delay: -1, quality: GifQuality.Bit8);
+}
+```
 
-### Contributing
+> If you don't want to write to a File, the first parameter can also be a `Stream`.
+
+## Reading a GIF
+
+At the moment there's only a GIF Creator. Create a pull request if you want to create a GIF Reader in this project!
+
+## Contributing
 
 1. [Fork this Project](https://github.com/mrousavy/AnimatedGif/fork)
 2. Change stuff on your Forked repo
