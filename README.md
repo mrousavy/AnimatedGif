@@ -7,6 +7,8 @@
 
 [![NuGet](https://img.shields.io/nuget/dt/AnimatedGif.svg)](https://www.nuget.org/packages/AnimatedGif/)
 
+<a href='https://ko-fi.com/F1F8CLXG' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
 # How to use
 
 ## Add to your Project
@@ -42,4 +44,3 @@ At the moment there's only a GIF Creator. Create a pull request if you want to c
 2. Change stuff on your Forked repo
 3. [Create a pull request](https://github.com/mrousavy/AnimatedGif/compare)
 
-<a href='https://ko-fi.com/F1F8CLXG' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
