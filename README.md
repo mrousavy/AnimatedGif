@@ -3,7 +3,7 @@
     <h1 align="left">Animated GIF</h1>
 </p>
 
-**AnimatedGif** is a high performance .NET library for **reading and creating animated GIFs**, inspired by the lack of features from the *System.Windows.Media.GifBitmapEncoder*
+**AnimatedGif** is a high performance .NET library for **reading and creating animated GIFs**, inspired by [ShareX](https://github.com/ShareX/ShareX). It replaces the default `System.Windows.Media.GifBitmapEncoder` to create GIFs from .NET more easily.
 
 [![NuGet](https://img.shields.io/nuget/dt/AnimatedGif.svg)](https://www.nuget.org/packages/AnimatedGif/)
 
