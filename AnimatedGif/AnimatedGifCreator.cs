@@ -26,24 +26,28 @@
 
 
 using System;
-using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace AnimatedGif {
     public class AnimatedGifCreator : IDisposable {
+        private ImageLibrary _imageLibrary;
         private bool _createdHeader;
         private readonly Stream _stream;
 
-        public AnimatedGifCreator(Stream stream, int delay = 33, int repeat = 0)
-        {
+        internal AnimatedGifCreator(Stream stream, int delay, int repeat, ImageLibrary imageLibrary) {
+            _imageLibrary = imageLibrary;
+
             Delay = delay;
             Repeat = repeat;
 
             _stream = stream;
         }
-        public AnimatedGifCreator(string filePath, int delay = 33, int repeat = 0) {
+
+        internal AnimatedGifCreator(string filePath, int delay, int repeat, ImageLibrary imageLibrary) {
+            _imageLibrary = imageLibrary;
+
             FilePath = filePath;
             Delay = delay;
             Repeat = repeat;
@@ -66,9 +70,9 @@ namespace AnimatedGif {
         /// <param name="image">The image to add to the GIF stack</param>
         /// <param name="delay">The delay in milliseconds this GIF will be delayed (-1: Indicating class property delay)</param>
         /// <param name="quality">The GIFs quality</param>
-        public void AddFrame(Image image, int delay = -1, GifQuality quality = GifQuality.Default) {
+        public void AddFrame(RawBitmap image, int delay = -1, GifQuality quality = GifQuality.Default) {
             var gif = new GifClass();
-            gif.LoadGifPicture(image, quality);
+            gif.LoadGifPicture(_imageLibrary, image, quality);
 
             if (!_createdHeader)
             {
@@ -93,9 +97,9 @@ namespace AnimatedGif {
         /// <param name="delay">The delay in milliseconds this GIF will be delayed (-1: Indicating class property delay)</param>
         /// <param name="quality">The GIFs quality</param>
         public void AddFrame(string path, int delay = -1, GifQuality quality = GifQuality.Default) {
-            using (var img = Helper.LoadImage(path)) {
-                AddFrame(img, delay, quality);
-            }
+            var img = _imageLibrary.LoadImage(path);
+
+            AddFrame(img, delay, quality);
         }
 
         private void AppendToStream(byte[] data)
@@ -109,13 +113,11 @@ namespace AnimatedGif {
         /// <param name="image">The image to add to the GIF stack</param>
         /// <param name="delay">The delay in milliseconds this GIF will be delayed (-1: Indicating class property delay)</param>
         /// <param name="quality">The GIFs quality</param>
-        public async Task AddFrameAsync(Image image, int delay = -1, GifQuality quality = GifQuality.Default, CancellationToken cancellationToken = default(CancellationToken))
-        {
+        public async Task AddFrameAsync(RawBitmap image, int delay = -1, GifQuality quality = GifQuality.Default, CancellationToken cancellationToken = default(CancellationToken)) {
             var gif = new GifClass();
-            gif.LoadGifPicture(image, quality);
+            gif.LoadGifPicture(_imageLibrary, image, quality);
 
-            if (!_createdHeader)
-            {
+            if (!_createdHeader) {
                 await AppendToStreamAsync(CreateHeaderBlock(), cancellationToken);
                 await AppendToStreamAsync(gif.ScreenDescriptor.ToArray(), cancellationToken);
                 await AppendToStreamAsync(CreateApplicationExtensionBlock(Repeat), cancellationToken);
@@ -136,16 +138,12 @@ namespace AnimatedGif {
         /// <param name="path">The image's path which will be added to the GIF stack</param>
         /// <param name="delay">The delay in milliseconds this GIF will be delayed (-1: Indicating class property delay)</param>
         /// <param name="quality">The GIFs quality</param>
-        public async Task AddFrameAsync(string path, int delay = -1, GifQuality quality = GifQuality.Default, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            using (var img = Helper.LoadImage(path))
-            {
-                await AddFrameAsync(img, delay, quality, cancellationToken);
-            }
+        public async Task AddFrameAsync(string path, int delay = -1, GifQuality quality = GifQuality.Default, CancellationToken cancellationToken = default(CancellationToken)) {
+            var img = _imageLibrary.LoadImage(path);
+            await AddFrameAsync(img, delay, quality, cancellationToken);
         }
 
-        private Task AppendToStreamAsync(byte[] data, CancellationToken cancellationToken = default(CancellationToken))
-        {
+        private Task AppendToStreamAsync(byte[] data, CancellationToken cancellationToken = default(CancellationToken)) {
             return _stream.WriteAsync(data, 0, data.Length, cancellationToken);
         }
 

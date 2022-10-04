@@ -17,8 +17,4 @@
     <PackageReleaseNotes>Migrate to .NET Standard</PackageReleaseNotes>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
-  </ItemGroup>
-
 </Project>

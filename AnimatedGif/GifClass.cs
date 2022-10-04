@@ -51,11 +51,11 @@ namespace AnimatedGif {
 
         public GifVersion Version = GifVersion.GIF87a;
 
-        public void LoadGifPicture(Image img, GifQuality quality) {
+        internal void LoadGifPicture(ImageLibrary imageLibrary, RawBitmap img, GifQuality quality) {
             List<byte> dataList;
 
             using (var ms = new MemoryStream()) {
-                img.SaveGif(ms, quality);
+                imageLibrary.SaveGif(ms, img, quality);
                 dataList = new List<byte>(ms.ToArray());
             }
 

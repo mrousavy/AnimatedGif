@@ -54,6 +54,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnimatedGif.SystemDrawing\AnimatedGif.SystemDrawing.csproj">
+      <Project>{E1872FE6-0489-4AD6-96C0-10B4D3E4661C}</Project>
+      <Name>AnimatedGif.SystemDrawing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AnimatedGif\AnimatedGif.csproj">
       <Project>{2f93bb0e-bd1f-4e6b-aef3-2a9b7befeb62}</Project>
       <Name>AnimatedGif</Name>

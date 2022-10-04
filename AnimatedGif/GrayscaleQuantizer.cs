@@ -42,7 +42,7 @@ namespace AnimatedGif {
         /// </remarks>
         public GrayscaleQuantizer()
             : base(new ArrayList()) {
-            Colors = new Color[256];
+            Colors = new Color32[256];
 
             const int nColors = 256;
 
@@ -61,7 +61,8 @@ namespace AnimatedGif {
                 // Otherwise, use your favorite color reduction algorithm
                 // and an optimum palette for that algorithm generated here.
                 // For example, a color histogram, or a median cut palette.
-                Colors[i] = Color.FromArgb((int) alpha,
+                Colors[i] = Color32.FromArgb(
+                    (int) alpha,
                     (int) intensity,
                     (int) intensity,
                     (int) intensity);
