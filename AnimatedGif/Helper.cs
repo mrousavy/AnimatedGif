@@ -33,18 +33,6 @@ namespace AnimatedGif {
             return null;
         }
 
-        //Load image without garbage leak
-        public static Image LoadImage(string filePath) {
-            try {
-                if (!string.IsNullOrEmpty(filePath) && IsImage(filePath) && File.Exists(filePath))
-                    return Image.FromStream(new MemoryStream(File.ReadAllBytes(filePath)));
-            } catch (Exception e) {
-                Console.WriteLine(e.Message);
-            }
-
-            return null;
-        }
-
         //Create a Directory from File Path
         public static void CreateDirectoryFromFilePath(string path) {
             if (!string.IsNullOrEmpty(path)) CreateDirectoryFromDirectoryPath(Path.GetDirectoryName(path));

@@ -26,9 +26,7 @@
 
 
 using System;
-using System.Collections;
-using System.Drawing;
-using System.Drawing.Imaging;
+using System.Collections.Generic;
 
 namespace AnimatedGif {
     /// <summary>
@@ -102,18 +100,15 @@ namespace AnimatedGif {
         /// </summary>
         /// <param name="original">Any old palette, this is overrwritten</param>
         /// <returns>The new color palette</returns>
-        protected override ColorPalette GetPalette(ColorPalette original) {
+        protected override Color32[] GetPalette() {
             // First off convert the octree to _maxColors colors
-            var palette = _octree.Palletize(_maxColors - 1);
-
-            // Then convert the palette based on those colors
-            for (int index = 0; index < palette.Count; index++)
-                original.Entries[index] = (Color) palette[index];
+            var palette = _octree.Palettize(_maxColors - 1);
 
             // Add the transparent color
-            original.Entries[_maxColors] = Color.FromArgb(0, 0, 0, 0);
+            palette.Add(Color32.FromArgb(0, 0, 0, 0));
 
-            return original;
+            // Then convert the palette based on those colors
+            return palette.ToArray();
         }
 
         /// <summary>
@@ -219,12 +214,12 @@ namespace AnimatedGif {
             /// </summary>
             /// <param name="colorCount">The maximum number of colors</param>
             /// <returns>An arraylist with the palettized colors</returns>
-            public ArrayList Palletize(int colorCount) {
+            public List<Color32> Palettize(int colorCount) {
                 while (Leaves > colorCount)
                     Reduce();
 
                 // Now palettize the nodes
-                var palette = new ArrayList(Leaves);
+                var palette = new List<Color32>(Leaves);
                 int paletteIndex = 0;
                 _root.ConstructPalette(palette, ref paletteIndex);
 
@@ -375,13 +370,13 @@ namespace AnimatedGif {
                 /// </summary>
                 /// <param name="palette">The palette</param>
                 /// <param name="paletteIndex">The current palette index</param>
-                public void ConstructPalette(ArrayList palette, ref int paletteIndex) {
+                public void ConstructPalette(List<Color32> palette, ref int paletteIndex) {
                     if (_leaf) {
                         // Consume the next palette index
                         _paletteIndex = paletteIndex++;
 
                         // And set the color of the palette entry
-                        palette.Add(Color.FromArgb(_red / _pixelCount, _green / _pixelCount, _blue / _pixelCount));
+                        palette.Add(Color32.FromArgb(_red / _pixelCount, _green / _pixelCount, _blue / _pixelCount));
                     } else {
                         // Loop through children looking for leaves
                         for (int index = 0; index < 8; index++)

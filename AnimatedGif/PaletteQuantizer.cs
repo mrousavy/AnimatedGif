@@ -26,8 +26,6 @@
 
 
 using System.Collections;
-using System.Drawing;
-using System.Drawing.Imaging;
 
 namespace AnimatedGif {
     /// <summary>
@@ -42,7 +40,7 @@ namespace AnimatedGif {
         /// <summary>
         ///     List of all colors in the palette
         /// </summary>
-        protected Color[] Colors;
+        protected Color32[] Colors;
 
         /// <summary>
         ///     Construct the palette quantizer
@@ -55,7 +53,7 @@ namespace AnimatedGif {
             : base(true) {
             _colorMap = new Hashtable();
 
-            Colors = new Color[palette.Count];
+            Colors = new Color32[palette.Count];
             palette.CopyTo(Colors);
         }
 
@@ -77,7 +75,7 @@ namespace AnimatedGif {
                 if (0 == pixel.Alpha) {
                     // Transparent. Lookup the first color with an alpha value of 0
                     for (int index = 0; index < Colors.Length; index++)
-                        if (0 == Colors[index].A) {
+                        if (0 == Colors[index].Alpha) {
                             colorIndex = (byte) index;
                             break;
                         }
@@ -92,9 +90,9 @@ namespace AnimatedGif {
                     for (int index = 0; index < Colors.Length; index++) {
                         var paletteColor = Colors[index];
 
-                        int redDistance = paletteColor.R - red;
-                        int greenDistance = paletteColor.G - green;
-                        int blueDistance = paletteColor.B - blue;
+                        int redDistance = paletteColor.Red - red;
+                        int greenDistance = paletteColor.Green - green;
+                        int blueDistance = paletteColor.Blue - blue;
 
                         int distance = redDistance * redDistance +
                                        greenDistance * greenDistance +
@@ -121,13 +119,9 @@ namespace AnimatedGif {
         /// <summary>
         ///     Retrieve the palette for the quantized image
         /// </summary>
-        /// <param name="palette">Any old palette, this is overrwritten</param>
         /// <returns>The new color palette</returns>
-        protected override ColorPalette GetPalette(ColorPalette palette) {
-            for (int index = 0; index < Colors.Length; index++)
-                palette.Entries[index] = Colors[index];
-
-            return palette;
+        protected override Color32[] GetPalette() {
+            return Colors;
         }
     }
 }
